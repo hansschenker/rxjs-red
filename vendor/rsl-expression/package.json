@@ -1,0 +1,42 @@
+{
+  "name": "@rxjs-rsl/synchronous-evaluator-adapter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Synchronous RSL expression evaluation with validated context frames and action operands",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./schema": "./schema/expression-unit.schema.json"
+  },
+  "bin": {
+    "rsl-expression-validate": "./dist/cli.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "validate": "node dist/cli.js",
+    "check": "npm run format:check && npm test",
+    "schema": "node dist/cli.js --schema",
+    "format": "prettier --write src test examples schema README.md docs package.json tsconfig.json",
+    "format:check": "prettier --check src test examples schema README.md docs package.json tsconfig.json",
+    "demo": "npm run build && node examples/context-view.mjs"
+  },
+  "dependencies": {
+    "@eslint-community/regexpp": "4.12.1",
+    "ajv": "8.17.1",
+    "jsonata": "1.8.7",
+    "yaml": "2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.13.10",
+    "prettier": "3.9.6",
+    "rxjs": "7.8.2",
+    "typescript": "5.9.3"
+  }
+}

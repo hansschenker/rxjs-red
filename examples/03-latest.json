@@ -1,0 +1,52 @@
+[
+  {
+    "id": "03-latest",
+    "type": "tab",
+    "label": "03 · Only the latest inner",
+    "disabled": false,
+    "info": "RSL graph. Open the RSL sidebar to run or export."
+  },
+  {
+    "id": "latest-source",
+    "type": "rsl-source",
+    "z": "03-latest",
+    "values": "[1,2,3,4,5]",
+    "periodMs": 80,
+    "valueType": "number",
+    "sourceKind": "values",
+    "name": "values",
+    "x": 150,
+    "y": 100,
+    "wires": [
+      [
+        "latest-result"
+      ]
+    ]
+  },
+  {
+    "id": "latest-result",
+    "type": "rsl-switch-map",
+    "z": "03-latest",
+    "worker": "delayedValue",
+    "expression": "{% $notification.value * 10 %}",
+    "durationMs": 150,
+    "valueType": "number",
+    "name": "switchMap",
+    "x": 360,
+    "y": 100,
+    "wires": [
+      [
+        "latest-sink"
+      ]
+    ]
+  },
+  {
+    "id": "latest-sink",
+    "type": "rsl-sink",
+    "z": "03-latest",
+    "name": "sink",
+    "x": 570,
+    "y": 100,
+    "wires": []
+  }
+]

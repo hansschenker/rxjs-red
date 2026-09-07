@@ -1,0 +1,21 @@
+.rsl-panel { padding: 16px; font-size: 14px; line-height: 1.5; overflow: auto; height: 100%; box-sizing: border-box; }
+.rsl-panel * { box-sizing: border-box; }
+.rsl-toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.rsl-panel button { cursor: pointer; padding: 7px 10px; border: 1px solid #8888; border-radius: 4px; background: var(--red-ui-form-input-background, #fff); color: var(--red-ui-primary-text-color, #252525); font: inherit; }
+.rsl-panel button:disabled { opacity: .5; cursor: default; }
+.rsl-panel button:focus-visible, .rsl-panel select:focus-visible, .rsl-panel textarea:focus-visible { outline: 2px solid #3576d6; outline-offset: 2px; }
+.rsl-panel .rsl-primary { background: #245caa; border-color: #245caa; color: #fff; }
+.rsl-hint { margin: 0 0 12px; }
+.rsl-row { display: flex; gap: 8px; align-items: center; margin: 10px 0; }
+.rsl-row select { flex: 1; min-width: 0; }
+.rsl-panel select { font: inherit; max-width: 100%; }
+.rsl-status { font-weight: 600; overflow-wrap: anywhere; }
+.rsl-error { color: #b42318; white-space: pre-wrap; overflow-wrap: anywhere; border-left: 3px solid #b42318; padding-left: 10px; }
+.rsl-panel details { border-top: 1px solid #8885; padding: 12px 0; }
+.rsl-panel summary { font-weight: 600; cursor: pointer; margin-bottom: 10px; }
+.rsl-panel pre { font: 13px/1.6 ui-monospace, monospace; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 300px; overflow: auto; padding: 10px; background: #8881; border-radius: 4px; }
+.rsl-events { max-height: 200px; overflow: auto; }
+.rsl-panel .rsl-event { display: block; text-align: left; width: 100%; border: 0; border-bottom: 1px solid #8883; font-size: 13px; overflow-wrap: anywhere; }
+.rsl-event:hover { background: #8882; }
+.rsl-panel textarea { width: 100%; margin: 10px 0; padding: 8px; font: 13px/1.5 ui-monospace, monospace; resize: vertical; }
+.rsl-example { width: 100%; margin-bottom: 8px; }

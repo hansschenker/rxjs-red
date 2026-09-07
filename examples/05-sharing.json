@@ -1,0 +1,57 @@
+[
+  {
+    "id": "05-sharing",
+    "type": "tab",
+    "label": "05 · Explicit sharing to two sinks",
+    "disabled": false,
+    "info": "RSL graph. Open the RSL sidebar to run or export."
+  },
+  {
+    "id": "shared-source",
+    "type": "rsl-source",
+    "z": "05-sharing",
+    "periodMs": 150,
+    "count": 5,
+    "sourceKind": "interval",
+    "name": "interval",
+    "x": 150,
+    "y": 100,
+    "wires": [
+      [
+        "replay-one"
+      ]
+    ]
+  },
+  {
+    "id": "replay-one",
+    "type": "rsl-share-replay",
+    "z": "05-sharing",
+    "name": "shareReplay",
+    "x": 360,
+    "y": 100,
+    "wires": [
+      [
+        "sink-a",
+        "sink-b"
+      ]
+    ]
+  },
+  {
+    "id": "sink-a",
+    "type": "rsl-sink",
+    "z": "05-sharing",
+    "name": "sink",
+    "x": 570,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "sink-b",
+    "type": "rsl-sink",
+    "z": "05-sharing",
+    "name": "sink",
+    "x": 780,
+    "y": 100,
+    "wires": []
+  }
+]

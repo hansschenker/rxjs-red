@@ -1,0 +1,8 @@
+node_modules/
+dist/
+vendor/rsl-expression/dist/
+.data/
+coverage/
+*.log
+.env
+vendor/rsl-expression/test/tmp/

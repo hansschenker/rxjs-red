@@ -1,0 +1,100 @@
+{
+  "repository": "https://github.com/hansschenker/rxjs-rsl-astra-01",
+  "ref": "6aca96176e8662c468dabed11e8104d2e4a17a51",
+  "files": [
+    {
+      "path": "src/actions.ts",
+      "sha": "5b36f9f3149ff2913eeffb0c0f0c18825ee67f05"
+    },
+    {
+      "path": "src/cli.ts",
+      "sha": "905d2a00e14239fb739fa5982e1577daf4f3c0ae"
+    },
+    {
+      "path": "src/document.ts",
+      "sha": "ee0df6ab943cb1621c23d52cfe3370e21f1deb4d"
+    },
+    {
+      "path": "src/evaluator.ts",
+      "sha": "3661a51faaea63888226538faaf62ede1ae64058"
+    },
+    {
+      "path": "src/frame.ts",
+      "sha": "2bc7232d270d25a4cd5488360a4f15c610d527be"
+    },
+    {
+      "path": "src/index.ts",
+      "sha": "211f6da800ddde1fae6ad591bdd7fae4da217a4e"
+    },
+    {
+      "path": "src/references.ts",
+      "sha": "9c76896075cdc7a000ff8a15ab96ae22c7ba8f32"
+    },
+    {
+      "path": "src/runtime-types.ts",
+      "sha": "e62c8be3e1f5a5f8da6c135c32f155cff2751c1f"
+    },
+    {
+      "path": "src/runtime-values.ts",
+      "sha": "da3da24296f95dc32c5eefa6d685651a7d1e7d4b"
+    },
+    {
+      "path": "src/schema.ts",
+      "sha": "d12c5b0c6362e6a760608280d3f61d5e77520a4f"
+    },
+    {
+      "path": "src/type-system.ts",
+      "sha": "2bb4a0c67455502111cbb79f21a68875f9ade61f"
+    },
+    {
+      "path": "src/types.ts",
+      "sha": "d6b4d1f685741339f574eaf73131d4307dfda100"
+    },
+    {
+      "path": "src/validator.ts",
+      "sha": "f5201e16351401f702013e8eccd5998a170560ab"
+    },
+    {
+      "path": "schema/expression-unit.schema.json",
+      "sha": "b24ab9a6025a0a4aad81cb620391b1797e098524"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha": "57c61b045321e99dcd6fd9fcd6f0ac67a7c764fe"
+    },
+    {
+      "path": "package.json",
+      "sha": "53e906468c5746df88ec54a1a7974eddbbc10d4b"
+    },
+    {
+      "path": "README.md",
+      "sha": "229412e53e37f8bce195d31238158164ec4639ef"
+    },
+    {
+      "path": "test/evaluator.test.mjs",
+      "sha": "71abbf12d797444e81a19bac53a23a4f05ee8e34"
+    },
+    {
+      "path": "test/validator.test.mjs",
+      "sha": "6918a1f0e89bb65bb6a4866f31f39f9b36c2294a"
+    },
+    {
+      "path": "test/rxjs-integration.test.mjs",
+      "sha": "008cdd46117be9c90f65351c2f2f3768eb318256"
+    },
+    {
+      "path": "examples/context-view.mjs",
+      "sha": "e6185aa17fe71b62dca175396094d65b37ed44c1"
+    }
+  ],
+  "localPatches": [
+    {
+      "path": "test/validator.test.mjs",
+      "reason": "Use import.meta.resolve(\"jsonata\") for the standard-function inventory fixture under npm hoisting. Runtime source and schema are unchanged."
+    },
+    {
+      "path": "README.md",
+      "reason": "Describe the vendored layout and link to pinned upstream canonical documents."
+    }
+  ]
+}

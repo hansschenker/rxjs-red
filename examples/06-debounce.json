@@ -1,0 +1,49 @@
+[
+  {
+    "id": "06-debounce",
+    "type": "tab",
+    "label": "06 · Debounce completion flush",
+    "disabled": false,
+    "info": "RSL graph. Open the RSL sidebar to run or export."
+  },
+  {
+    "id": "debounce-source",
+    "type": "rsl-source",
+    "z": "06-debounce",
+    "values": "[1,2,3,4,5]",
+    "periodMs": 80,
+    "valueType": "number",
+    "sourceKind": "values",
+    "name": "values",
+    "x": 150,
+    "y": 100,
+    "wires": [
+      [
+        "quiet-period"
+      ]
+    ]
+  },
+  {
+    "id": "quiet-period",
+    "type": "rsl-debounce-time",
+    "z": "06-debounce",
+    "durationMs": 150,
+    "name": "debounceTime",
+    "x": 360,
+    "y": 100,
+    "wires": [
+      [
+        "debounce-sink"
+      ]
+    ]
+  },
+  {
+    "id": "debounce-sink",
+    "type": "rsl-sink",
+    "z": "06-debounce",
+    "name": "sink",
+    "x": 570,
+    "y": 100,
+    "wires": []
+  }
+]

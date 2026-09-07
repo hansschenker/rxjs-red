@@ -1,0 +1,64 @@
+[
+  {
+    "id": "01-values",
+    "type": "tab",
+    "label": "01 · Values — map and filter",
+    "disabled": false,
+    "info": "RSL graph. Open the RSL sidebar to run or export."
+  },
+  {
+    "id": "values-source",
+    "type": "rsl-source",
+    "z": "01-values",
+    "values": "[1,2,3,4,5]",
+    "periodMs": 0,
+    "valueType": "number",
+    "sourceKind": "values",
+    "name": "values",
+    "x": 150,
+    "y": 100,
+    "wires": [
+      [
+        "double"
+      ]
+    ]
+  },
+  {
+    "id": "double",
+    "type": "rsl-map",
+    "z": "01-values",
+    "expression": "{% $notification.value * 2 %}",
+    "valueType": "number",
+    "name": "map",
+    "x": 360,
+    "y": 100,
+    "wires": [
+      [
+        "greater-than-six"
+      ]
+    ]
+  },
+  {
+    "id": "greater-than-six",
+    "type": "rsl-filter",
+    "z": "01-values",
+    "expression": "{% $notification.value > 6 %}",
+    "name": "filter",
+    "x": 570,
+    "y": 100,
+    "wires": [
+      [
+        "values-sink"
+      ]
+    ]
+  },
+  {
+    "id": "values-sink",
+    "type": "rsl-sink",
+    "z": "01-values",
+    "name": "sink",
+    "x": 780,
+    "y": 100,
+    "wires": []
+  }
+]

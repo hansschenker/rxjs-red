@@ -1,0 +1,51 @@
+[
+  {
+    "id": "02-memory",
+    "type": "tab",
+    "label": "02 · Remembered state",
+    "disabled": false,
+    "info": "RSL graph. Open the RSL sidebar to run or export."
+  },
+  {
+    "id": "memory-source",
+    "type": "rsl-source",
+    "z": "02-memory",
+    "values": "[1,2,3,4,5]",
+    "periodMs": 200,
+    "valueType": "number",
+    "sourceKind": "values",
+    "name": "values",
+    "x": 150,
+    "y": 100,
+    "wires": [
+      [
+        "running-total"
+      ]
+    ]
+  },
+  {
+    "id": "running-total",
+    "type": "rsl-scan",
+    "z": "02-memory",
+    "expression": "{% $state.total + $notification.value %}",
+    "seed": "0",
+    "valueType": "number",
+    "name": "scan",
+    "x": 360,
+    "y": 100,
+    "wires": [
+      [
+        "memory-sink"
+      ]
+    ]
+  },
+  {
+    "id": "memory-sink",
+    "type": "rsl-sink",
+    "z": "02-memory",
+    "name": "sink",
+    "x": 570,
+    "y": 100,
+    "wires": []
+  }
+]

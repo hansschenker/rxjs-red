@@ -1,0 +1,93 @@
+[
+  {
+    "id": "04-combine",
+    "type": "tab",
+    "label": "04 · Two named inputs",
+    "disabled": false,
+    "info": "RSL graph. Open the RSL sidebar to run or export."
+  },
+  {
+    "id": "numbers",
+    "type": "rsl-source",
+    "z": "04-combine",
+    "values": "[1,2,3]",
+    "periodMs": 300,
+    "valueType": "number",
+    "sourceKind": "values",
+    "name": "values",
+    "x": 150,
+    "y": 100,
+    "wires": [
+      [
+        "latest-pair_input_0"
+      ]
+    ]
+  },
+  {
+    "id": "letters",
+    "type": "rsl-source",
+    "z": "04-combine",
+    "values": "[\"a\",\"b\",\"c\"]",
+    "periodMs": 450,
+    "valueType": "string",
+    "sourceKind": "values",
+    "name": "values",
+    "x": 360,
+    "y": 100,
+    "wires": [
+      [
+        "latest-pair_input_1"
+      ]
+    ]
+  },
+  {
+    "id": "latest-pair",
+    "type": "rsl-combine-latest",
+    "z": "04-combine",
+    "name": "combineLatest",
+    "x": 570,
+    "y": 100,
+    "wires": [
+      [
+        "combine-sink"
+      ]
+    ]
+  },
+  {
+    "id": "combine-sink",
+    "type": "rsl-sink",
+    "z": "04-combine",
+    "name": "sink",
+    "x": 780,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "latest-pair_input_0",
+    "type": "rsl-input",
+    "z": "04-combine",
+    "port": "a",
+    "name": "a",
+    "x": 430,
+    "y": 100,
+    "wires": [
+      [
+        "latest-pair"
+      ]
+    ]
+  },
+  {
+    "id": "latest-pair_input_1",
+    "type": "rsl-input",
+    "z": "04-combine",
+    "port": "b",
+    "name": "b",
+    "x": 430,
+    "y": 160,
+    "wires": [
+      [
+        "latest-pair"
+      ]
+    ]
+  }
+]
