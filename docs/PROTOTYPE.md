@@ -81,6 +81,8 @@ HTTP transport and the inspector handle portable JSON. Direct forwarding preserv
 
 Run snapshots the current selected tab. A later edit or Deploy does not mutate a running graph. Deploy persists Node-RED descriptions only; it neither starts nor cancels RSL runs. The sidebar can select and cancel each retained execution. Closing a tab/browser does not unsubscribe from the server-owned run. Server shutdown does.
 
+Each run captures its node labels and operation names for historical inspection. The sidebar distinguishes the active canvas from the selected execution, restores an active run after reload, and retains event focus during polling. State and lifecycle filters make memory changes and cancellation directly inspectable. See the [browser milestone](BROWSER-MILESTONE.md) for exercised workflows and evidence.
+
 Native Node-RED nodes, configuration objects, subflows, groups, credentials, and arbitrary message handlers cannot be treated as equivalent RxJS operations. Comments/groups may decorate the chosen RSL tab but are omitted from RSL export. Named inputs must feed exactly one combineLatest and receive exactly one upstream stream. Their unique code-point-sorted names define tuple order, which is enforced on imported graph documents as well.
 
 ## HTTP API
@@ -91,18 +93,17 @@ Native Node-RED nodes, configuration objects, subflows, groups, credentials, and
 | `POST /compile` | Validate `{flows, flowId}` or `{graph}`; return graph and derived types |
 | `POST /runs` | Start a validated snapshot; return execution ID/status |
 | `GET /runs` | List retained executions |
-| `GET /runs/:id?after=N` | Return later trace events, bounded outputs, and dropped counts |
+| `GET /runs/:id?after=N` | Return later trace events, bounded outputs, dropped counts, and execution-owned `nodes: [{id, name, operation}]` |
 | `POST /runs/:id/cancel` | Idempotently cancel a run |
 | `POST /export` | Compile and serialize with `format: "json"` or `"yaml"` |
 | `POST /import` | Parse `{source, format}`, validate/compile, and return editor nodes |
 | `GET /examples` | List bundled example filenames |
 | `GET /examples/:name` | Read a bundled example |
 
-The server is a trusted local authoring tool, binds to loopback, and rejects cross-origin browser mutations. Expressions are validated and bounded by the existing adapter; this is not a hostile-code sandbox. There is no authenticated remote deployment configuration, durable execution engine, or npm publication.
+The server is a trusted local authoring tool, defaults to loopback, and rejects cross-origin browser mutations. An explicit `--host` flag supports development preview environments; it does not configure authentication. Expressions are validated and bounded by the existing adapter; this is not a hostile-code sandbox. There is no authenticated remote deployment configuration, durable execution engine, or npm publication.
 
 ## Next focused work
 
-1. Exercise canvas editing, importing, sidebar interaction, and keyboard accessibility in a browser.
-2. Connect the canonical notification-driven reaction executor to the same graph boundary.
-3. Add richer logical input editing and user-defined Observable-producing Workers.
-4. Extend state/connection inspection and only then package tested behavior patterns as reusable visual components.
+1. Connect the canonical notification-driven reaction executor to the same graph boundary.
+2. Add richer logical input editing and user-defined Observable-producing Workers.
+3. Extend state/connection inspection and only then package tested behavior patterns as reusable visual components.

@@ -11,7 +11,8 @@ import { invariant, isRecord } from './model.js';
 
 const require = createRequire(import.meta.url);
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
-type Run = { id: string; graphId: string; name: string; status: ExecutionStatus; trace: TraceEvent[]; outputs: { sinkId: string; value: unknown }[]; dropped: number; droppedOutputs: number; execution?: Execution };
+type RunNode = Readonly<{ id: string; name: string; operation: string }>;
+type Run = { id: string; graphId: string; name: string; nodes: readonly RunNode[]; status: ExecutionStatus; trace: TraceEvent[]; outputs: { sinkId: string; value: unknown }[]; dropped: number; droppedOutputs: number; execution?: Execution };
 const summary = (run: Run) => ({ id: run.id, graphId: run.graphId, name: run.name, status: run.status });
 
 export async function createApplication({ dataDir = join(ROOT, '.data') }: { dataDir?: string } = {}) {
@@ -25,7 +26,7 @@ export async function createApplication({ dataDir = join(ROOT, '.data') }: { dat
   try { await copyFile(join(examplesDir, '01-values.json'), join(dataDir, 'flows.json'), 1); }
   catch (error) { if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw error; }
   app.disable('x-powered-by');
-  // This development editor is intentionally bound to loopback by server.ts.
+  // This development editor defaults to loopback in server.ts.
   // Reject browser cross-origin mutations, including form posts, before Node-RED routes.
   app.use((req, res, next) => {
     const origin = req.headers.origin;
@@ -71,7 +72,9 @@ export async function createApplication({ dataDir = join(ROOT, '.data') }: { dat
     const compiled = compileGraph(selectGraph(req.body));
     invariant([...runs.values()].filter(r => r.status === 'running').length < 4, 'Cancel an active run before starting another (limit 4)');
     if (runs.size >= 20) { const old = [...runs.values()].find(r => r.status !== 'running'); if (old) runs.delete(old.id); }
-    const run: Run = { id: randomUUID(), graphId: compiled.graph.id, name: compiled.graph.name, status: 'running', trace: [], outputs: [], dropped: 0, droppedOutputs: 0 };
+    // Capture labels with the execution so later canvas edits cannot rename its history.
+    const nodes = compiled.graph.nodes.map(node => ({ id: node.id, name: compiled.graph.editor?.nodes[node.id]?.name || node.operation, operation: node.operation }));
+    const run: Run = { id: randomUUID(), graphId: compiled.graph.id, name: compiled.graph.name, nodes, status: 'running', trace: [], outputs: [], dropped: 0, droppedOutputs: 0 };
     runs.set(run.id, run);
     run.execution = startExecution(compiled, {
       id: run.id,
@@ -92,7 +95,7 @@ export async function createApplication({ dataDir = join(ROOT, '.data') }: { dat
     if (!run) { res.status(404).json({ error: 'Run not found' }); return; }
     const after = req.query.after === undefined ? -1 : Number(req.query.after);
     invariant(Number.isInteger(after) && after >= -1, 'Invalid trace cursor');
-    res.json({ ...summary(run), trace: run.trace.filter(e => e.sequence > after), outputs: run.outputs, dropped: run.dropped, droppedOutputs: run.droppedOutputs });
+    res.json({ ...summary(run), nodes: run.nodes, trace: run.trace.filter(e => e.sequence > after), outputs: run.outputs, dropped: run.dropped, droppedOutputs: run.droppedOutputs });
   });
   app.post('/api/rsl/runs/:id/cancel', (req, res) => {
     const run = runs.get(req.params.id!);

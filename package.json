@@ -8,7 +8,7 @@
   "scripts": {
     "build": "node scripts/generate-nodes.mjs && tsc -p vendor/rsl-expression && tsc",
     "start": "node dist/server.js",
-    "dev": "npm run build && npm start",
+    "dev": "npm run build && node --watch dist/server.js",
     "test": "npm run build && node --test test/*.test.mjs",
     "test:evaluator": "npm --prefix vendor/rsl-expression test",
     "check": "npm test && npm run test:evaluator",

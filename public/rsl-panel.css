@@ -1,6 +1,14 @@
 .rsl-panel { padding: 16px; font-size: 14px; line-height: 1.5; overflow: auto; height: 100%; box-sizing: border-box; }
 .rsl-panel * { box-sizing: border-box; }
+.rsl-panel [hidden] { display: none !important; }
 .rsl-toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.rsl-controls { position: sticky; top: -16px; z-index: 1; padding: 12px 0 2px; background: var(--red-ui-primary-background, #fff); }
+.rsl-canvas { font-weight: 600; overflow-wrap: anywhere; margin: 0 0 6px; }
+.rsl-feedback { border-left: 3px solid #245caa; padding-left: 10px; }
+.rsl-run-hint, .rsl-trace-hint { font-size: 12px; }
+.rsl-follow { display: flex; align-items: center; gap: 6px; }
+.rsl-panel .rsl-follow input { width: auto; margin: 0; }
+.rsl-event-title { font-weight: 600; overflow-wrap: anywhere; }
 .rsl-panel button { cursor: pointer; padding: 7px 10px; border: 1px solid #8888; border-radius: 4px; background: var(--red-ui-form-input-background, #fff); color: var(--red-ui-primary-text-color, #252525); font: inherit; }
 .rsl-panel button:disabled { opacity: .5; cursor: default; }
 .rsl-panel button:focus-visible, .rsl-panel select:focus-visible, .rsl-panel textarea:focus-visible { outline: 2px solid #3576d6; outline-offset: 2px; }
@@ -17,5 +25,6 @@
 .rsl-events { max-height: 200px; overflow: auto; }
 .rsl-panel .rsl-event { display: block; text-align: left; width: 100%; border: 0; border-bottom: 1px solid #8883; font-size: 13px; overflow-wrap: anywhere; }
 .rsl-event:hover { background: #8882; }
+.rsl-panel .rsl-event[aria-pressed="true"] { background: #245caa22; box-shadow: inset 3px 0 #245caa; }
 .rsl-panel textarea { width: 100%; margin: 10px 0; padding: 8px; font: 13px/1.5 ui-monospace, monospace; resize: vertical; }
 .rsl-example { width: 100%; margin-bottom: 8px; }

@@ -29,6 +29,10 @@ test('embedded Node-RED serves real custom nodes and executes the RSL HTTP workf
   const run = await api('runs', { flows }, 201);
   const detail = await api('runs/' + run.id);
   assert.equal(detail.status, 'completed'); assert.deepEqual(detail.outputs.map(e => e.value), [8, 10]);
+  assert.deepEqual(detail.nodes.find(n => n.id === 'double'), { id: 'double', name: 'map', operation: 'map' });
+  const renamed = structuredClone(flows); renamed.find(n => n.id === 'double').name = 'Renamed after Run';
+  await api('compile', { flows: renamed });
+  assert.equal((await api('runs/' + run.id)).nodes.find(n => n.id === 'double').name, 'map');
   assert.ok(detail.trace.some(e => e.kind === 'reaction' && e.context.event.value === 1));
   const end = detail.trace.at(-1).sequence;
   assert.deepEqual((await api('runs/' + run.id + '?after=' + end)).trace, []);
@@ -57,7 +61,10 @@ test('generated editor definitions register all node roles and validate expressi
   assert.equal(definitions.get('rsl-source').inputs, 0);
   assert.equal(definitions.get('rsl-sink').outputs, 0);
   const validate = definitions.get('rsl-map').defaults.expression.validate;
-  assert.equal(validate('{% $notification.value * 2 %}'), true);
-  assert.equal(validate('value * 2'), false);
+  assert.equal(validate.call({}, '{% $notification.value * 2 %}'), true);
+  assert.equal(validate.call({}, 'value * 2'), false);
+  assert.equal(definitions.get('rsl-source').defaults.count.validate.call({ sourceKind: 'values' }, undefined), true);
+  assert.equal(definitions.get('rsl-source').defaults.count.validate.call({ sourceKind: 'interval' }, null), true);
+  assert.equal(definitions.get('rsl-source').defaults.values.validate.call({ sourceKind: 'interval' }, undefined), true);
   new vm.Script(await readFile(new URL('../public/rsl-panel.js', import.meta.url), 'utf8'));
 });

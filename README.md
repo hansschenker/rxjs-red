@@ -24,11 +24,13 @@ Open **http://localhost:1880/red/**. The application binds to `127.0.0.1` and is
 2. Open the **RSL** sidebar using its play-circle icon on the right.
 3. Press **Run · subscribe**. The Sink displays **8** and **10**, followed by completion.
 4. Select a notification to inspect its execution ID, subscription ID, logical time, and available context.
-5. Expand **Examples** to add another flow. Importing adds a copy with new editor IDs.
+5. Expand **Examples** to add another flow. Importing adds and selects a copy with new editor IDs.
 
 **Run uses the current canvas**, including edits that have not been deployed. **Deploy saves the Node-RED flow configuration**; RSL description nodes do not start RxJS execution on deployment. Restarting preserves saved flows in `.data/`. Runs and traces are held in memory and do not survive restart.
 
 `PORT` selects another local port. `RSL_DATA_DIR` selects another flow-storage directory. On Windows PowerShell, set these as `$env:PORT` and `$env:RSL_DATA_DIR` before starting.
+
+For development, `npm run dev` builds once and watches the built server modules. Run `npm run build` after TypeScript edits to restart that development server; reload the browser after sidebar asset changes. Explicit flags are accepted, for example `npm run dev -- --host 127.0.0.1 --port 1881 --strictPort`. A non-loopback host is an explicit choice for a trusted environment; it does not add authentication. Restarting the development server cancels its runs.
 
 ## The RSL palette
 
@@ -71,10 +73,12 @@ Two Sinks create two cold subscriptions by default. Add **shareReplay · 1** at 
 
 ## Inspect and exchange workflows
 
-- The RSL sidebar displays Sink values and a bounded, selectable notification trace.
-- `scan` records before/after memory. Value-sensitive operations expose their actual evaluation frames.
+- The RSL sidebar displays named Sink values and a bounded notification trace, with filters for node and event kind.
+- `scan` displays before/after memory directly. Value-sensitive operations expose their actual evaluation frames in Event JSON.
+- Selecting an event preserves its context and keyboard focus while new values arrive; **Follow latest events** resumes automatic scrolling.
+- Execution status stays separate from canvas validation. On reload, the sidebar selects the newest active run or latest retained result. **Cancel** always targets the selected execution.
 - Inner traces distinguish subscribe, next, complete, error, and unsubscribe.
-- Export downloads RSL JSON or YAML and also puts it in the document field for editing.
+- Export prepares RSL JSON or YAML, triggers a download, and retains both a download link and editable document text.
 - Import validates that document and adds an equivalent supported flow to the canvas.
 - Native Node-RED Import/Export remains available for the editor's own JSON format.
 
@@ -89,11 +93,12 @@ npm run demo
 
 `check` builds strict TypeScript and runs **21 prototype tests** and all **288 inherited evaluator tests**. Prototype tests cover actual RxJS execution, virtual time, same-stack teardown, sharing, expression errors, graph validation, JSON/YAML round trips, and HTTP integration with a real embedded Node-RED runtime. Generated node definitions are also executed in a JavaScript test context. GitHub Actions runs the same checks on Node.js 22 and 24.
 
-The browser canvas has not undergone automated drag-and-drop or visual testing in this environment. HTTP integration verifies that the real editor, custom node definitions, and sidebar assets are served; it does not replace browser interaction testing.
+The [browser milestone record](docs/BROWSER-MILESTONE.md) documents real palette and wire drags, node-dialog edits, running before Deploy, state inspection, keyboard interaction, cancellation, reload recovery, expression errors, and JSON/YAML imports. It includes screenshots and the remaining verification limits; these browser exercises are separate from the automated test suite.
 
 ## Design and scope
 
 - [Prototype architecture and transport contract](docs/PROTOTYPE.md)
+- [Browser editor milestone and screenshots](docs/BROWSER-MILESTONE.md)
 - [Lessons from Dean Cording's state-machine node](docs/STATE-MACHINE-INSPIRATION.md)
 - [Verification record](verification.json)
 - [Pinned evaluator provenance](vendor/rsl-expression/UPSTREAM.json)

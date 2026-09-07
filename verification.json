@@ -35,11 +35,63 @@
     "cold fan-out and explicit shareReplay",
     "terminal errors and direct array packages",
     "real embedded Node-RED HTTP integration",
-    "editor node registration and expression validation"
+    "editor node registration and expression validation",
+    "execution-owned node labels and optional source-field validation"
   ],
   "limits": [
-    "No automated browser interaction or visual QA",
+    "Browser exercises are a desktop session, not a permanent browser regression suite or full accessibility audit",
+    "Downloaded-file delivery was not verified; browser export text and JSON/YAML imports were verified",
     "GitHub Actions is configured for Node 22 and 24; remote result is separate from this local record",
     "The graph compiler is a scoped prototype, not the canonical general reaction executor"
-  ]
+  ],
+  "milestone": "browser-editor",
+  "browser": {
+    "status": "core-workflows-passed",
+    "engine": "Chromium",
+    "viewport": {
+      "width": 1363,
+      "height": 936
+    },
+    "record": "docs/BROWSER-MILESTONE.md",
+    "screenshots": [
+      "docs/browser-qa/state.jpg",
+      "docs/browser-qa/cancel.jpg"
+    ],
+    "composed_flow": {
+      "nodes": [
+        "Source",
+        "scan",
+        "Sink"
+      ],
+      "values": [
+        2,
+        4,
+        6
+      ],
+      "periodMs": 500,
+      "outputs": [
+        2,
+        6,
+        12
+      ]
+    },
+    "checks": [
+      "palette and wire dragging",
+      "node property dialogs",
+      "Run before Deploy",
+      "state and event filters",
+      "keyboard selection and stable live focus",
+      "Cancel with unsubscription and no completion",
+      "reload and cancel an active execution",
+      "separate validation and execution status",
+      "clear execution selection",
+      "JSON and YAML document round trips",
+      "automatic selection of imported flows",
+      "switchMap inner cancellation",
+      "runtime error inspection",
+      "Deploy persistence"
+    ],
+    "download_delivery": "not verified: browser download-completion waits timed out; export text and imports passed",
+    "network_outage_retry": "reviewed, not fault-injected"
+  }
 }

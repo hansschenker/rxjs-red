@@ -8,20 +8,34 @@ const scripts = `<script type="text/javascript">
   const validators = {
     json: function(value) { try { JSON.parse(value); return true; } catch { return false; } },
     number: function(value) { return value !== '' && Number.isInteger(Number(value)) && Number(value) >= 0; },
-    'optional-number': function(value) { return value === '' || (Number.isInteger(Number(value)) && Number(value) >= 0); },
+    'optional-number': function(value) { return value == null || value === '' || (Number.isInteger(Number(value)) && Number(value) >= 0); },
     expression: function(value) { return typeof value === 'string' && /^\\{%[\\s\\S]+%\\}$/.test(value); }
   };
   catalog.forEach(function(item) {
     const defaults = { name: { value: '' } };
     item.fields.forEach(function(field) {
       defaults[field.key] = { value: field.default, required: field.format !== 'optional-number' };
-      if (validators[field.format]) defaults[field.key].validate = validators[field.format];
+      if (validators[field.format]) defaults[field.key].validate = function(value) {
+        if (item.type === 'rsl-source' && ((field.key === 'values' && this.sourceKind === 'interval') || (field.key === 'count' && this.sourceKind === 'values'))) return true;
+        return validators[field.format](value);
+      };
     });
     RED.nodes.registerType(item.type, {
       category: item.category, color: item.color, defaults: defaults,
-      inputs: item.inputs, outputs: item.outputs, icon: item.icon,
+      inputs: item.inputs, outputs: item.outputs, icon: item.icon, paletteLabel: item.label,
       label: function() { return this.name || (item.type === 'rsl-input' ? this.port : item.label); },
       inputLabels: 'stream', outputLabels: 'stream',
+      oneditprepare: function() {
+        if (item.type !== 'rsl-source') return;
+        const updateSourceFields = function() {
+          const interval = $('#node-input-sourceKind').val() === 'interval';
+          $('#node-input-values').closest('.form-row').toggle(!interval);
+          $('#node-input-valueType').closest('.form-row').toggle(!interval);
+          $('#node-input-count').closest('.form-row').toggle(interval);
+        };
+        $('#node-input-sourceKind').on('change', updateSourceFields);
+        updateSourceFields();
+      },
       onpaletteadd: function() { if (window.RslPanel) window.RslPanel.install(); }
     });
   });
